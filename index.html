@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>慧慧</title>
+    <style>
+        /* 第一页：确认弹窗样式 */
+       .page1 {
+            background-color: #888;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+       .popup {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 400px;
+        }
+       .popup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+       .popup-header h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+       .popup-content {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+       .popup-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+       .popup-footer button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px solid #0056b3;
+        }
+       .popup-footer button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 第二页：满屏弹窗样式 */
+       .page2 {
+            background-color: #e6f0f7;
+            margin: 0;
+            overflow: hidden;
+            display: none; /* 初始隐藏 */
+        }
+       .popup-card {
+            position: absolute;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+            cursor: pointer;
+        }
+       .card-header {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+       .card-content {
+            font-size: 16px;
+            text-align: center;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+       .more-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 第一页：确认弹窗 -->
+    <div class="page1">
+        <div class="popup">
+            <div  class="popup-header">
+                <h3>❤️</h3>
+            </div>
+            <div class="popup-content">
+                <p>打开</p>
+            </div>
+            <div class="popup-footer">
+                <button id="confirmBtn">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二页：满屏弹窗页面 -->
+    <div class="page2" id="page2">
+        <div class="more-btn">更多</div>
+    </div>
+
+    <script>
+        // 修正后的暖心提示语列表（去重、优化格式、增加多样性）
+        const tips = [
+            "顺顺利利",
+            "今天过得开心嘛",
+            "我想你了",
+            "别感冒了❤️",
+            "天冷了，多穿衣服❤️",
+            "期待下一次见面",
+            "保持微笑呀❤️",
+            "天天开心",
+            "每天都要元气满满❤️",
+            "要好好吃饭哦❤️",
+            "别忘记吃饭",
+            "保持好心情❤️",
+            "一切都会变好的",
+            "你真的很棒",
+            "别让自己太累啦❤️",
+            "记得多喝水❤️",
+            "偶🌷尔偷懒也好",
+            "期待下一次见面🌷",
+            "保持微笑呀",
+            "天天开心🌷",
+            "要好好吃饭哦🌷",
+            "保持好心情🌷",
+            "少熬夜"
+        ];
+
+        // 随机颜色列表
+        const colors = [
+            "rgba(255, 220, 220, 0.8)",
+            "rgba(255, 240, 200, 0.8)",
+            "rgba(220, 255, 220, 0.8)",
+            "rgba(220, 240, 255, 0.8)",
+            "rgba(240, 220, 255, 0.8)"
+        ];
+
+        // 点击“确定”按钮，切换到满屏弹窗页面并生成初始弹窗
+        const confirmBtn = document.getElementById('confirmBtn');
+        confirmBtn.addEventListener('click', function () {
+            document.querySelector('.page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+            // 生成更多初始弹窗
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createPopup();
+                }, i * 200);
+            }
+        });
+
+        // 创建并显示弹窗的函数
+        function createPopup() {
+            const card = document.createElement('div');
+            card.className = 'popup-card';
+
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            card.style.backgroundColor = randomColor;
+
+            card.innerHTML = `
+                <div class="card-header">
+                    提示
+                </div>
+                <div class="card-content">${randomTip}</div>
+            `;
+
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const left = Math.random() * (screenWidth - 200);
+            const top = Math.random() * (screenHeight - 100);
+            card.style.left = `${left}px`;
+            card.style.top = `${top}px`;
+
+            document.getElementById('page2').appendChild(card);
+
+            card.addEventListener('click', () => {
+                card.remove();
+            });
+        }
+
+        // 点击“退出”按钮生成新弹窗
+        const moreBtn = document.querySelector('.more-btn');
+        moreBtn.addEventListener('click', () => {
+            // 每次点击生成更多弹窗
+            for (let i = 0; i < 5; i++) {
+                createPopup();
+            }
+        });
+    </script>
+</body>
+</html>
